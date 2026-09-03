@@ -16,14 +16,21 @@ def start():
             "[1] Add Income\n[2] Add Expense\n[3] View All\n[4] Summary\n[5] By Category\n[6] Exit"
         )
         option = user_prompt("an option ")
-        if option == "1":
-            add_income()
-        elif option == "2":
-            add_expense()
-        elif option == "6":
-            return
-        else:
-            print("not a valid option")
+        while True:
+            try:
+                if option == "1":
+                    add_income()
+                elif option == "2":
+                    add_expense()
+                elif option == "3":
+                    view_transaction(transactions)
+                elif option == "6":
+                    return
+                else:
+                    print("not a valid option")
+                break
+            except ValueError:
+                print("Enter an option from [1] - [6]")
 
         print(transactions)
 
@@ -56,6 +63,10 @@ def add_expense():
     # print(transactions)
 
 
+def view_transaction(detail):
+    
+
+
 def get_amount():
     while True:
         try:
@@ -75,3 +86,4 @@ def user_prompt(value):
 
 if __name__ == "__main__":
     main()
+abdulazeez
