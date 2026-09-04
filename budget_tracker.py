@@ -23,7 +23,9 @@ def start():
                 elif option == "2":
                     add_expense()
                 elif option == "3":
-                    view_transaction(transactions)
+                    view_all_transaction(transactions)
+                elif option == "4":
+                    view_summary(transactions)
                 elif option == "6":
                     return
                 else:
@@ -31,8 +33,6 @@ def start():
                 break
             except ValueError:
                 print("Enter an option from [1] - [6]")
-
-        print(transactions)
 
 
 def add_income():
@@ -63,9 +63,37 @@ def add_expense():
     # print(transactions)
 
 
-def view_transaction(detail):
-    
+def view_all_transaction(details):
+    print("==========Recent Transactions==========")
+    print()
+    for detail in details:
+        for key, value in detail.items():
+            print(f"{key:<20}: {value}")
+            print()
+        print("=======================================")
+        print()
 
+
+def view_summary(details):
+    print("==========FINANCIAL SUMMARY==========")
+    print()
+    total_income = 0
+    total_expense = 0
+    for detail in details:
+        for key in detail.keys():
+            if key == "income_amount":
+                total_income += detail["income_amount"]
+            elif key == "expense_amount":
+                total_expense += detail["expense_amount"]
+    net_balance = total_income - total_expense
+
+    print(f"{'Total Income:':<20} ₦ {total_income}")
+    print(f"{'Total Expense:':<20}  ₦ {total_expense}")
+    print(f"{'Net Balance:':<20}  ₦ {net_balance}")
+    print()
+
+def view_category(details):
+    
 
 def get_amount():
     while True:
@@ -81,9 +109,5 @@ def user_prompt(value):
     return input(f"Enter {value}")
 
 
-# add_income()
-
-
 if __name__ == "__main__":
     main()
-abdulazeez
