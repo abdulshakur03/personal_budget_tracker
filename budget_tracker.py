@@ -25,7 +25,9 @@ def start():
                 elif option == "3":
                     view_all_transaction(transactions)
                 elif option == "4":
-                    view_summary(transactions)
+                    print(view_summary(transactions))
+                elif option == "5":
+                    view_category(transactions)
                 elif option == "6":
                     return
                 else:
@@ -87,13 +89,27 @@ def view_summary(details):
                 total_expense += detail["expense_amount"]
     net_balance = total_income - total_expense
 
-    print(f"{'Total Income:':<20} ₦ {total_income}")
-    print(f"{'Total Expense:':<20}  ₦ {total_expense}")
-    print(f"{'Net Balance:':<20}  ₦ {net_balance}")
+    return (
+        f"{'Total Income:':<20} ₦ {total_income}\n{'Total Expense:':<20}  ₦ {total_expense}\n{'Net Balance:':<20}  ₦ {net_balance}",
+        total_expense,
+    )
     print()
 
+
 def view_category(details):
-    
+    _, total_expense = view_summary(transactions)
+    print("==========SPENDING BY CATEGORY==========")
+    print()
+    total_category = 0
+    for detail in details:
+        for key in detail.keys():
+            if key == "category":
+                total_category += detail["expense_amount"]
+                print(
+                    f"{detail[key]:<20} ₦ {total_category} ({(total_category * 100)/total_expense})"
+                )
+    # expense_category = details[]
+
 
 def get_amount():
     while True:
