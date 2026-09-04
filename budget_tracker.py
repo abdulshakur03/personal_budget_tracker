@@ -23,11 +23,20 @@ def start():
                 elif option == "2":
                     add_expense()
                 elif option == "3":
+                    # print("==========Recent Transactions==========")
+                    # print()
                     view_all_transaction(transactions)
                 elif option == "4":
-                    print(view_summary(transactions))
+                    print("==========FINANCIAL SUMMARY==========")
+                    print()
+                    summary, _ = view_summary(transactions)
+                    print(summary)
+                    print()
                 elif option == "5":
-                    view_category(transactions)
+                    _, total_expense = view_summary(transactions)
+                    print("==========SPENDING BY CATEGORY==========")
+                    print()
+                    print(view_category(transactions, total_expense))
                 elif option == "6":
                     return
                 else:
@@ -71,14 +80,13 @@ def view_all_transaction(details):
     for detail in details:
         for key, value in detail.items():
             print(f"{key:<20}: {value}")
-            print()
         print("=======================================")
         print()
 
 
 def view_summary(details):
-    print("==========FINANCIAL SUMMARY==========")
-    print()
+    # print("==========FINANCIAL SUMMARY==========")
+    # print()
     total_income = 0
     total_expense = 0
     for detail in details:
@@ -96,17 +104,17 @@ def view_summary(details):
     print()
 
 
-def view_category(details):
-    _, total_expense = view_summary(transactions)
-    print("==========SPENDING BY CATEGORY==========")
-    print()
-    total_category = 0
+def view_category(details, total_expense):
+    # _, total_expense = view_summary(transactions)
+    # print("==========SPENDING BY CATEGORY==========")
+    # print()
+    expense_amount = 0
     for detail in details:
         for key in detail.keys():
             if key == "category":
-                total_category += detail["expense_amount"]
+                expense_amount += detail["expense_amount"]
                 print(
-                    f"{detail[key]:<20} ₦ {total_category} ({(total_category * 100)/total_expense})"
+                    f"{detail[key]:<20} ₦ {expense_amount} ({(expense_amount * 100)/total_expense}%)"
                 )
     # expense_category = details[]
 
