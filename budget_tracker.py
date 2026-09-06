@@ -105,18 +105,13 @@ def view_summary(details):
 
 
 def view_category(details, total_expense):
-    # _, total_expense = view_summary(transactions)
-    # print("==========SPENDING BY CATEGORY==========")
-    # print()
-    expense_amount = 0
     for detail in details:
         for key in detail.keys():
             if key == "category":
-                expense_amount += detail["expense_amount"]
                 print(
-                    f"{detail[key]:<20} ₦ {expense_amount} ({(expense_amount * 100)/total_expense}%)"
+                    f"{detail[key]:<20} ₦ {detail["expense_amount"]} ({(detail["expense_amount"] * 100)/total_expense:.2f}%)"
                 )
-    # expense_category = details[]
+    return ""
 
 
 def get_amount():
