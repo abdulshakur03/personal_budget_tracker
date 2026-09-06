@@ -10,114 +10,121 @@ def main():
 
 def start():
     while True:
+        print()
         print("===== BUDGET TRACKER =====")
 
         print(
-            "[1] Add Income\n[2] Add Expense\n[3] View All\n[4] Summary\n[5] By Category\n[6] Exit"
+            "[1] Add Income\n[2] Add Expense\n[3] View All Transactions\n[4] View Summary\n[5] View by Category\n[6] Exit"
         )
-        option = user_prompt("an option ")
-        while True:
-            try:
-                if option == "1":
-                    add_income()
-                elif option == "2":
-                    add_expense()
-                elif option == "3":
-                    # print("==========Recent Transactions==========")
-                    # print()
-                    view_all_transaction(transactions)
-                elif option == "4":
-                    print("==========FINANCIAL SUMMARY==========")
-                    print()
-                    summary, _ = view_summary(transactions)
-                    print(summary)
-                    print()
-                elif option == "5":
-                    _, total_expense = view_summary(transactions)
-                    print("==========SPENDING BY CATEGORY==========")
-                    print()
-                    print(view_category(transactions, total_expense))
-                elif option == "6":
-                    return
-                else:
-                    print("not a valid option")
-                break
-            except ValueError:
-                print("Enter an option from [1] - [6]")
+        print()
+        option = user_prompt("an option")
+        print()
+
+        if option == "1":
+            add_income()
+        elif option == "2":
+            add_expense()
+        elif option == "3":
+            view_all_transaction(transactions)
+        elif option == "4":
+            print("==========FINANCIAL SUMMARY==========\n")
+            print()
+            summary, _ = view_summary(transactions)
+            print(summary)
+            print()
+        elif option == "5":
+            _, total_expense = view_summary(transactions)
+            print("==========SPENDING BY CATEGORY==========\n")
+            print()
+            view_category(transactions, total_expense)
+            print()
+        elif option == "6":
+            print("Goodbye!, Always remember to spend wisely\n\n-MAO")
+            break
+        else:
+            print("Not a valid option, Please choose [1] - [6].\n")
 
 
 def add_income():
-    source = user_prompt("source ")
-    income_amount = get_amount()
-
-    income_details = {
+    income_item = {
         "type": "income",
-        "source": source,
-        "income_amount": income_amount,
-        "income_date": current_day,
+        "source": user_prompt("source"),
+        "amount": get_amount(),
+        "date": current_day,
     }
 
-    transactions.append(income_details)
-    # print(transactions)
+    transactions.append(income_item)
 
 
 def add_expense():
-    expense_details = {
+    expense_item = {
         "type": "expense",
-        "category": user_prompt("category "),
-        "description": user_prompt("description "),
-        "expense_amount": get_amount(),
-        "expense_date": current_day,
+        "category": user_prompt("category"),
+        "description": user_prompt("description"),
+        "amount": get_amount(),
+        "date": current_day,
     }
 
-    transactions.append(expense_details)
-    # print(transactions)
+    transactions.append(expense_item)
 
 
 def view_all_transaction(details):
     print("==========Recent Transactions==========")
     print()
+    if len(details) == 0:
+        print("No recent Transactions")
+        print()
+
     for detail in details:
         for key, value in detail.items():
-            print(f"{key:<20}: {value}")
+            if key == "amount":
+                print(f"{key:<20}: {value:,.2f}")
+            else:
+                print(f"{key:<20}: {value}")
         print("=======================================")
         print()
 
 
-def view_summary(details):
-    # print("==========FINANCIAL SUMMARY==========")
-    # print()
+def view_summary(items):
     total_income = 0
     total_expense = 0
-    for detail in details:
-        for key in detail.keys():
-            if key == "income_amount":
-                total_income += detail["income_amount"]
-            elif key == "expense_amount":
-                total_expense += detail["expense_amount"]
+    for item in items:
+        if item["type"] == "income":
+            total_income += item["amount"]
+        elif item["type"] == "expense":
+            total_expense += item["amount"]
     net_balance = total_income - total_expense
 
     return (
-        f"{'Total Income:':<20} ₦ {total_income}\n{'Total Expense:':<20}  ₦ {total_expense}\n{'Net Balance:':<20}  ₦ {net_balance}",
+        f"{'Total Income:':<20}₦ {total_income:,.2f}\n{'Total Expense:':<20}₦ {total_expense:,.2f}\n{'Net Balance:':<20}₦ {net_balance:,.2f}",
         total_expense,
     )
-    print()
 
 
-def view_category(details, total_expense):
-    for detail in details:
-        for key in detail.keys():
-            if key == "category":
-                print(
-                    f"{detail[key]:<20} ₦ {detail["expense_amount"]} ({(detail["expense_amount"] * 100)/total_expense:.2f}%)"
-                )
-    return ""
+def view_category(items, total_expense):
+    if total_expense == 0:
+        print("No expenses recorded yet.")
+        print()
+        return
+    category_total = {}
+    for item in items:
+        if item["type"] == "expense":
+            cat = item["category"].title()
+            amt = item["amount"]
+            if cat in category_total:
+                category_total[cat] += amt
+            else:
+                category_total[cat] = amt
+    for cat_name, cat_amt in category_total.items():
+        print(
+            f"{cat_name:<20} ₦ {cat_amt:,.2f} ({(cat_amt * 100)/total_expense:,.2f}%)"
+        )
 
 
 def get_amount():
     while True:
         try:
-            amount = int(user_prompt("amount "))
+            amount = float(user_prompt("amount"))
             break
         except ValueError:
             print("Not a valid Number")
@@ -125,7 +132,7 @@ def get_amount():
 
 
 def user_prompt(value):
-    return input(f"Enter {value}")
+    return input(f"Enter {value}: ")
 
 
 if __name__ == "__main__":
