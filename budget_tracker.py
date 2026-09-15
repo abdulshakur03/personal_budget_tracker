@@ -1,11 +1,9 @@
 import json
 from datetime import date
 
-# transactions = []
-current_day = date.today()
-test = []
+current_day = date.today().isoformat()
 try:
-    with open("demo.json", "r") as f:
+    with open("transaction.json", "r") as f:
         transactions = json.load(f)
 
 except FileNotFoundError:
@@ -47,7 +45,6 @@ def start():
             print()
             view_category(transactions, total_expense)
             print()
-            print("test", test)
         elif option == "6":
             delete_expense(transactions)
 
@@ -56,6 +53,8 @@ def start():
             break
         else:
             print("Not a valid option, Please choose [1] - [6].\n")
+        with open("transaction.json", "w") as f:
+            json.dump(transactions, f, indent=4)
 
 
 def add_income():
@@ -87,13 +86,7 @@ def delete_expense(expenses):
         print()
     else:
         view_all_transaction(expenses)
-        while True:
-            try:
-                prompt = int(user_prompt("a number to delete: "))
-                break
-            except ValueError:
-                print("Not a valid Number")
-
+        prompt = int(validate_user_input("a number to delete"))
         while len(expenses) < prompt:
             print("select valid number\n")
             prompt = int(validate_user_input("a number to delete: "))
@@ -119,6 +112,7 @@ def view_all_transaction(details):
                 print(f"{key:<20}: {value}")
         print("=======================================")
         print()
+        num += 1
 
 
 def view_summary(items):
@@ -155,12 +149,6 @@ def view_category(items, total_expense):
         print(
             f"{cat_name:<20} ₦ {cat_amt:,.2f} ({(cat_amt * 100)/total_expense:,.2f}%)"
         )
-        test.append(
-            f"{cat_name:<20} ₦ {cat_amt:,.2f} ({(cat_amt * 100)/total_expense:,.2f}%)"
-        )
-
-
-# delete_expenses =
 
 
 def get_amount():
@@ -171,6 +159,14 @@ def get_amount():
         except ValueError:
             print("Not a valid Number")
     return amount
+
+
+def validate_user_input(text):
+    while True:
+        try:
+            return int(user_prompt("a number to delete: "))
+        except ValueError:
+            print("Not a valid Number")
 
 
 def user_prompt(value):
