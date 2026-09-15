@@ -1,10 +1,19 @@
+import json
 from datetime import date
 
-transactions = []
+# transactions = []
 current_day = date.today()
+test = []
+try:
+    with open("demo.json", "r") as f:
+        transactions = json.load(f)
+
+except FileNotFoundError:
+    transactions = []
 
 
 def main():
+
     start()
 
 
@@ -14,7 +23,7 @@ def start():
         print("===== BUDGET TRACKER =====")
 
         print(
-            "[1] Add Income\n[2] Add Expense\n[3] View All Transactions\n[4] View Summary\n[5] View by Category\n[6] Exit"
+            "[1] Add Income\n[2] Add Expense\n[3] View All Transactions\n[4] View Summary\n[5] View by Category\n[6] Delete\n[7] Exit"
         )
         print()
         option = user_prompt("an option")
@@ -38,7 +47,11 @@ def start():
             print()
             view_category(transactions, total_expense)
             print()
+            print("test", test)
         elif option == "6":
+            delete_expense(transactions)
+
+        elif option == "7":
             print("Goodbye!, Always remember to spend wisely\n\n-MAO")
             break
         else:
@@ -68,7 +81,29 @@ def add_expense():
     transactions.append(expense_item)
 
 
+def delete_expense(expenses):
+    if not expenses:
+        print("Nothing to delete")
+        print()
+    else:
+        view_all_transaction(expenses)
+        while True:
+            try:
+                prompt = int(user_prompt("a number to delete: "))
+                break
+            except ValueError:
+                print("Not a valid Number")
+
+        while len(expenses) < prompt:
+            print("select valid number\n")
+            prompt = int(validate_user_input("a number to delete: "))
+
+        expenses.pop(prompt - 1)
+        print("Expense Deleted")
+
+
 def view_all_transaction(details):
+    num = 1
     print("==========Recent Transactions==========")
     print()
     if len(details) == 0:
@@ -76,6 +111,7 @@ def view_all_transaction(details):
         print()
 
     for detail in details:
+        print(f"------------[{num}]---------------")
         for key, value in detail.items():
             if key == "amount":
                 print(f"{key:<20}: {value:,.2f}")
@@ -119,6 +155,12 @@ def view_category(items, total_expense):
         print(
             f"{cat_name:<20} ₦ {cat_amt:,.2f} ({(cat_amt * 100)/total_expense:,.2f}%)"
         )
+        test.append(
+            f"{cat_name:<20} ₦ {cat_amt:,.2f} ({(cat_amt * 100)/total_expense:,.2f}%)"
+        )
+
+
+# delete_expenses =
 
 
 def get_amount():
