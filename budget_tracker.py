@@ -21,7 +21,7 @@ def start():
         print("===== BUDGET TRACKER =====")
 
         print(
-            "[1] Add Income\n[2] Add Expense\n[3] View All Transactions\n[4] View Summary\n[5] View by Category\n[6] Delete\n[7] Exit"
+            "[1] Add Income\n[2] Add Expense\n[3] View All Transactions\n[4] View Summary\n[5] View Expense by Category\n[6] Delete\n[7] Exit"
         )
         print()
         option = user_prompt("an option")
@@ -87,9 +87,11 @@ def delete_expense(expenses):
     else:
         view_all_transaction(expenses)
         prompt = int(validate_user_input("a number to delete"))
+        print()
         while len(expenses) < prompt:
-            print("select valid number\n")
-            prompt = int(validate_user_input("a number to delete: "))
+            print("Select a valid number to delete\n")
+            prompt = int(validate_user_input("a number to delete"))
+            print()
 
         expenses.pop(prompt - 1)
         print("Expense Deleted")
@@ -164,7 +166,7 @@ def get_amount():
 def validate_user_input(text):
     while True:
         try:
-            return int(user_prompt("a number to delete: "))
+            return int(user_prompt(text))
         except ValueError:
             print("Not a valid Number")
 
