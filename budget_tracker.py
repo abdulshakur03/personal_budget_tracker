@@ -6,7 +6,7 @@ try:
     with open("transaction.json", "r") as f:
         transactions = json.load(f)
 
-except FileNotFoundError:
+except (FileNotFoundError, json.JSONDecodeError):
     transactions = []
 
 
@@ -92,7 +92,6 @@ def delete_expense(expenses):
             print("Select a valid number to delete\n")
             prompt = int(validate_user_input("a number to delete"))
             print()
-
         expenses.pop(prompt - 1)
         print("Expense Deleted")
 

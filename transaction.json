@@ -1,0 +1,44 @@
+[
+    {
+        "type": "expense",
+        "category": "Utility",
+        "description": "nepa bill",
+        "amount": 3000.0,
+        "date": "2026-09-18"
+    },
+    {
+        "type": "expense",
+        "category": "Utility",
+        "description": "nepa bill",
+        "amount": 1000.0,
+        "date": "2026-09-18"
+    },
+    {
+        "type": "expense",
+        "category": "Utility",
+        "description": "nepa bill",
+        "amount": 2000.0,
+        "date": "2026-09-18"
+    },
+    {
+        "type": "expense",
+        "category": "food",
+        "description": "nepa bill",
+        "amount": 2500.0,
+        "date": "2026-09-18"
+    },
+    {
+        "type": "expense",
+        "category": "Food",
+        "description": "nepa bill",
+        "amount": 2000.0,
+        "date": "2026-09-18"
+    },
+    {
+        "type": "expense",
+        "category": "576365",
+        "description": "4387473",
+        "amount": -2222.0,
+        "date": "2026-09-18"
+    }
+]
